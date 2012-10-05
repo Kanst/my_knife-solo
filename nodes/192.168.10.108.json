@@ -1,5 +1,3 @@
-{ "run_list": ["recipe[nginx]",
-			 "recipe[htop]",
-			 "recipe[git]" ] 
+{ "run_list": ["recipe[oh-my-zsh]" ]
 
 }
