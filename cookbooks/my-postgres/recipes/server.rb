@@ -1,8 +1,10 @@
+#/postgresql.conf.
+# Cookbook Name:: postgresql
+# Recipe:: server
 #
-# Cookbook Name:: oh-my-zsh
-# Recipe:: default
-#
-# Copyright 2011, Heavy Water Software Inc.
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Author:: Lamont Granquist (<lamont@opscode.com>)
+# Copyright 2009-2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +19,14 @@
 # limitations under the License.
 #
 
-include_recipe "git"
+#::Chef::Recipe.send(:include, Opscode::OpenSSL::Password)
 
-node['oh_my_zsh']['users'].each do |u|
+include_recipe "postgresql::client"
 
-  git "/home/#{u}/.oh-my-zsh" do
-  repository "https://github.com/Kanst/oh-my-zsh"
-  reference "master"
-  action :sync
-  end 
 
-  template "/home/#{u}/.zshrc" do
-    source "zshrc.erb"
-    mode 0774
-    action :create
+
+node['postgresql']['server']['packages'].each do |pg_pack|
+  package pg_pack do
+    action :install
   end
 end

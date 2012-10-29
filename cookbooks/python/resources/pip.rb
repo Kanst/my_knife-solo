@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: oh-my-zsh
-# Recipe:: default
+# Author:: Seth Chisamore <schisamo@opscode.com>
+# Cookbook Name:: python
+# Resource:: pip
 #
-# Copyright 2011, Heavy Water Software Inc.
+# Copyright:: 2011, Opscode, Inc <legal@opscode.com>
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +18,10 @@
 # limitations under the License.
 #
 
-include_recipe "git"
+actions :install, :upgrade, :remove, :purge
 
-node['oh_my_zsh']['users'].each do |u|
-
-  git "/home/#{u}/.oh-my-zsh" do
-  repository "https://github.com/Kanst/oh-my-zsh"
-  reference "master"
-  action :sync
-  end 
-
-  template "/home/#{u}/.zshrc" do
-    source "zshrc.erb"
-    mode 0774
-    action :create
-  end
-end
+attribute :package_name, :kind_of => String, :name_attribute => true
+attribute :version, :default => nil
+attribute :timeout, :default => nil
+attribute :virtualenv, :kind_of => String
+attribute :options, :kind_of => String

@@ -1,0 +1,1 @@
+default['uwsgi'][:apps] = ['blog.kanst9.com']

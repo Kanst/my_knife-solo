@@ -1,1 +1,1 @@
-default['oh_my_zsh'][:users] = ['jeka', 'kanst']
+default['oh_my_zsh'][:users] = ['jeka']

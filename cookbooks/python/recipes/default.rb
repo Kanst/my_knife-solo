@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: oh-my-zsh
+# Author:: Seth Chisamore <schisamo@opscode.com>
+# Cookbook Name:: python
 # Recipe:: default
 #
-# Copyright 2011, Heavy Water Software Inc.
+# Copyright 2011, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +18,12 @@
 # limitations under the License.
 #
 
-include_recipe "git"
+#include_recipe "python::#{node['python']['install_method']}"
+include_recipe "python::pip"
+#include_recipe "python::virtualenv"
 
-node['oh_my_zsh']['users'].each do |u|
 
-  git "/home/#{u}/.oh-my-zsh" do
-  repository "https://github.com/Kanst/oh-my-zsh"
-  reference "master"
-  action :sync
-  end 
-
-  template "/home/#{u}/.zshrc" do
-    source "zshrc.erb"
-    mode 0774
-    action :create
-  end
-end
+python_pip "django" do
+      version "1.4.1"
+      action :install
+    end

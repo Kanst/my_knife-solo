@@ -1,8 +1,8 @@
 #
-# Cookbook Name:: oh-my-zsh
+# Cookbook Name:: postgresql
 # Recipe:: default
 #
-# Copyright 2011, Heavy Water Software Inc.
+# Copyright 2009, Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +17,4 @@
 # limitations under the License.
 #
 
-include_recipe "git"
-
-node['oh_my_zsh']['users'].each do |u|
-
-  git "/home/#{u}/.oh-my-zsh" do
-  repository "https://github.com/Kanst/oh-my-zsh"
-  reference "master"
-  action :sync
-  end 
-
-  template "/home/#{u}/.zshrc" do
-    source "zshrc.erb"
-    mode 0774
-    action :create
-  end
-end
+include_recipe "postgresql::client"

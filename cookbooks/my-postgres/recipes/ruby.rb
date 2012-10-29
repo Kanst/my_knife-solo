@@ -1,8 +1,9 @@
 #
-# Cookbook Name:: oh-my-zsh
-# Recipe:: default
+# Cookbook Name:: postgresql
+# Recipe:: ruby
 #
-# Copyright 2011, Heavy Water Software Inc.
+# Author:: Joshua Timberman (<joshua@opscode.com>)
+# Copyright 2012 Opscode, Inc.
 #
 # Licensed under the Apache License, Version 2.0 (the "License");
 # you may not use this file except in compliance with the License.
@@ -17,19 +18,19 @@
 # limitations under the License.
 #
 
-include_recipe "git"
+execute "apt-get update" do
+  ignore_failure true
+  action :nothing
+end.run_action(:run) if node['platform_family'] == "debian"
 
-node['oh_my_zsh']['users'].each do |u|
+node.set['build_essential']['compiletime'] = true
+include_recipe "build-essential"
+include_recipe "postgresql::client"
 
-  git "/home/#{u}/.oh-my-zsh" do
-  repository "https://github.com/Kanst/oh-my-zsh"
-  reference "master"
-  action :sync
-  end 
+node['postgresql']['client']['packages'].each do |pg_pack|
 
-  template "/home/#{u}/.zshrc" do
-    source "zshrc.erb"
-    mode 0774
-    action :create
-  end
+  resources("package[#{pg_pack}]").run_action(:install)
+
 end
+
+chef_gem "pg"

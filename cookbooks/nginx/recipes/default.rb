@@ -8,3 +8,7 @@
 #
 package 'nginx'
 
+service 'nginx' do 
+	supports [:status]
+	action :start
+end
